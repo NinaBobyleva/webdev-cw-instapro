@@ -1,4 +1,4 @@
-import { getPosts } from "./api.js";
+import { getPosts, token } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -34,6 +34,29 @@ export const logout = () => {
 /**
  * Включает страницу приложения
  */
+
+export const fetchAndRenderPosts = () => {
+  getPosts({ token }).then((responseData) => {
+    // console.log(responseData);
+    const appPosts = responseData.map((post) => {
+      return {
+        imageUrl: post.image,
+        createdAt: new Date(),
+        description: post.text,
+        user: {
+          name: post.user.name,
+          imageUrl: post.user.image,
+        },
+        likes: [
+          {},
+        ],
+        isLiked: false,
+      }
+    })
+    posts = appPosts;
+  });
+}
+
 export const goToPage = (newPage, data) => {
   if (
     [
