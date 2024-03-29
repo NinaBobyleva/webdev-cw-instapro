@@ -40,15 +40,18 @@ export const fetchAndRenderPosts = () => {
     // console.log(responseData);
     const appPosts = responseData.map((post) => {
       return {
-        imageUrl: post.image,
-        createdAt: new Date(),
-        description: post.text,
+        imageUrl: post.imageURL,
+        createdAt: post.createdAt,
+        description: post.description,
         user: {
           name: post.user.name,
-          imageUrl: post.user.image,
+          imageUrl: post.user.imageURL,
         },
         likes: [
-          {},
+          {
+          id: post.id,
+          name: post.name
+        },
         ],
         isLiked: false,
       }

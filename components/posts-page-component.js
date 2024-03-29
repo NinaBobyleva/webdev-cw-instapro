@@ -1,6 +1,7 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
+// import { format } from "date-fns";
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -15,7 +16,7 @@ export function renderPostsPageComponent({ appEl }) {
     return {
       id: post.id,
       imageUrl: post.imageUrl,
-      createdAt: post.date,
+      createdAt: format(date, 'yyyy-MM-dd HH.mm'),
       description: post.description,
       user: {
         id: post.user.id,
@@ -23,9 +24,10 @@ export function renderPostsPageComponent({ appEl }) {
         imageUrl: post.user.imageUrl,
       },
       likes: [
-        {id: post.likes.id, name: post.likes.name},
-        {id: post.likes.id, name: post.likes.name},
-        {id: post.likes.id, name: post.likes.name}
+        {
+        id: post.id,
+        name: post.name,
+      },
       ],
       isLiked: false,
     }
@@ -52,11 +54,11 @@ export function renderPostsPageComponent({ appEl }) {
                       <img class="post-image" src=${post.imageUrl}>
                     </div>
                     <div class="post-likes">
-                      <button data-post-id=${post.likes.id} class="like-button">
+                      <button data-post-id=${posts.id} class="like-button">
                         <img src="./assets/images/like-active.svg">
                       </button>
                       <p class="post-likes-text">
-                        Нравится: <strong>${post.likes.name}</strong>
+                        Нравится: <strong>${post.name}</strong>
                       </p>
                     </div>
                     <p class="post-text">
@@ -64,7 +66,7 @@ export function renderPostsPageComponent({ appEl }) {
                       ${post.description}
                     </p>
                     <p class="post-date">
-                      ${post.date}
+                      ${post.createdAt}
                     </p>
                   </li>
                   
