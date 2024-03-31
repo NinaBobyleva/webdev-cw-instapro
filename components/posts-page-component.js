@@ -2,6 +2,7 @@ import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
 import { formatDistanceToNow } from "date-fns";
+import { ruLocale } from "date-fns/locale/ru";
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -13,11 +14,11 @@ export function renderPostsPageComponent({ appEl }) {
   // let date = new Date();
 
   const getPostsApp = posts.map((post) => {
-    // const ruLocale = require('date-fns/locale/ru');
+    // ruLocale = require('date-fns/locale/ru');
     return {
       id: post.id,
       imageUrl: post.imageUrl,
-      createdAt: formatDistanceToNow(new Date(post.createdAt)),
+      createdAt: formatDistanceToNow(new Date(post.createdAt), {locale: ruLocale}),
       description: post.description,
       user: {
         id: post.user.id,

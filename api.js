@@ -27,6 +27,23 @@ export function getPosts({ token }) {
     
 }
 
+export function getUserPosts({ id }) {
+  return fetch(postsHost, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      // console.log(data);
+      return data.posts;
+    });
+    
+}
+
 export function postPosts({ description, imageUrl }) {
   return fetch(postsHost, {
     method: "POST",
