@@ -2,15 +2,18 @@
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "nina-bobyleva";
 const baseHost = "https://webdev-hw-api.vercel.app";
-const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+const postsHost = `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro`;
 
-export let token = `Bearer bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck`
+export let token;
+export let setToken = (newToken) => {
+  token = newToken;
+}
 
 export function getPosts({ token }) {
-  return fetch(postsHost, {
+  return fetch(`${postsHost}/`, {
     method: "GET",
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => {
@@ -31,7 +34,7 @@ export function getUserPosts({ id }) {
   return fetch(postsHost, {
     method: "GET",
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => {
@@ -44,14 +47,14 @@ export function getUserPosts({ id }) {
 }
 
 export function postPosts({ description, imageUrl }) {
-  return fetch(postsHost, {
+  return fetch(`${postsHost}/`, {
     method: "POST",
     body: JSON.stringify({
       description,
       imageUrl,
     }),
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   })
   .then((response) => {

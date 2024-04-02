@@ -13,7 +13,14 @@ export function renderPostsPageComponent({ appEl }) {
   //   const appPosts = responseData
   // let date = new Date();
 
-  const getPostsApp = posts.map((post) => {
+  // const getLikesApp = likes.map((like) => {
+  //   return {
+  //     id: like.id,
+  //     name: like.name,
+  //   }
+  // })
+
+  const getPostsApp = posts.map((post, like) => {
     // ruLocale = require('date-fns/locale/ru');
     return {
       id: post.id,
@@ -27,8 +34,8 @@ export function renderPostsPageComponent({ appEl }) {
       },
       likes: [
         {
-        id: post.id,
-        name: post.name,
+        id: like.id,
+        name: like.name,
       },
       ],
       isLiked: false,
@@ -43,7 +50,7 @@ export function renderPostsPageComponent({ appEl }) {
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  const appHtml = getPostsApp.map((post) => {
+  const appHtml = getPostsApp.map((post, like,) => {
     return `<div class="page-container">
                 <div class="header-container"></div>
                 <ul class="posts">
@@ -56,11 +63,11 @@ export function renderPostsPageComponent({ appEl }) {
                       <img class="post-image" src=${post.imageUrl}>
                     </div>
                     <div class="post-likes">
-                      <button data-post-id=${posts.id} class="like-button">
-                        <img src="./assets/images/like-active.svg">
+                      <button data-post-id=${like.id} class="like-button">
+                        <img src="./assets/images/like-not-active.svg">
                       </button>
                       <p class="post-likes-text">
-                        Нравится: <strong>${post.name}</strong>
+                        Нравится: <strong>${like.name}</strong>
                       </p>
                     </div>
                     <p class="post-text">
