@@ -18,7 +18,7 @@ export function renderPostsPageComponent({ appEl }) {
     return {
       id: post.id,
       imageUrl: post.imageUrl,
-      createdAt: formatDistanceToNow(new Date(post.createdAt), {locale: ru}),
+      createdAt: formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru}),
       description: post.description,
       user: {
         id: post.user.id,
