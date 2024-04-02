@@ -2,7 +2,7 @@ import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
 import { formatDistanceToNow } from "date-fns";
-import { ruLocale } from "date-fns/locale/ru";
+import { ru } from "date-fns/locale";
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -18,7 +18,7 @@ export function renderPostsPageComponent({ appEl }) {
     return {
       id: post.id,
       imageUrl: post.imageUrl,
-      createdAt: formatDistanceToNow(new Date(post.createdAt), {locale: ruLocale}),
+      createdAt: formatDistanceToNow(new Date(post.createdAt), {locale: ru}),
       description: post.description,
       user: {
         id: post.user.id,
