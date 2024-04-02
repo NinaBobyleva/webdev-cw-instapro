@@ -5,8 +5,13 @@ const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro`;
 
 export let token;
+export let id;
+
 export let setToken = (newToken) => {
   token = newToken;
+}
+export let setId = (newId) => {
+  id = newId;
 }
 
 export function getPosts({ token }) {
@@ -30,8 +35,8 @@ export function getPosts({ token }) {
     
 }
 
-export function getUserPosts({ id }) {
-  return fetch(postsHost, {
+export function getUserPosts(id) {
+  return fetch(`${postsHost}/user-posts/${id}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -41,7 +46,8 @@ export function getUserPosts({ id }) {
       return response.json();
     })
     .then((data) => {
-      return data.posts;
+      console.log(data);
+      return data;
     });
     
 }

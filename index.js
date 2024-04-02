@@ -1,4 +1,4 @@
-import { getPosts, token } from "./api.js";
+import { getPosts, getUserPosts, token } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -15,6 +15,7 @@ import {
   removeUserFromLocalStorage,
   saveUserToLocalStorage,
 } from "./helpers.js";
+import { renderUserPostsPageComponent } from "./components/user-post-page-component.js";
 
 export let user = getUserFromLocalStorage();
 export let page = null;
@@ -35,30 +36,30 @@ export const logout = () => {
  * Включает страницу приложения
  */
 
-export const fetchAndRenderPosts = () => {
-  getPosts({ token }).then((responseData) => {
-    // console.log(responseData);
-    const appPosts = responseData.map((post) => {
-      return {
-        imageUrl: post.imageURL,
-        createdAt: post.createdAt,
-        description: post.description,
-        user: {
-          name: post.user.name,
-          imageUrl: post.user.imageURL,
-        },
-        likes: [
-          {
-          id: post.id,
-          name: post.name
-        },
-        ],
-        isLiked: false,
-      }
-    })
-    posts = appPosts;
-  });
-}
+// export const fetchAndRenderPosts = () => {
+//   getPosts({ token }).then((responseData) => {
+//     // console.log(responseData);
+//     const appPosts = responseData.map((post) => {
+//       return {
+//         imageUrl: post.imageURL,
+//         createdAt: post.createdAt,
+//         description: post.description,
+//         user: {
+//           name: post.user.name,
+//           imageUrl: post.user.imageURL,
+//         },
+//         likes: [
+//           {
+//           id: post.id,
+//           name: post.name
+//         },
+//         ],
+//         isLiked: false,
+//       }
+//     })
+//     posts = appPosts;
+//   });
+// }
 
 export const goToPage = (newPage, data) => {
   if (
@@ -94,12 +95,17 @@ export const goToPage = (newPage, data) => {
 
     if (newPage === USER_POSTS_PAGE) {
       // TODO: реализовать получение постов юзера из API
-      console.log("Открываю страницу пользователя: ", data.userId);
       page = USER_POSTS_PAGE;
-      posts = [];
-      return renderApp();
-    }
+      renderApp();
 
+      return getUserPosts(data.userId)
+      .then((responseData) => {
+        posts = [];
+        posts = responseData.posts;
+        renderApp();
+      })
+      // console.log("Открываю страницу пользователя: ", data.userId);
+    }
     page = newPage;
     renderApp();
 
@@ -135,7 +141,7 @@ const renderApp = () => {
   if (page === ADD_POSTS_PAGE) {
     return renderAddPostPageComponent({
       appEl,
-      onAddPostClick({ description, imageUrl, }) {
+      onAddPostClick() {
           
         // TODO: реализовать добавление поста в API
         // console.log("Добавляю пост...", { description, imageUrl });
@@ -152,8 +158,11 @@ const renderApp = () => {
 
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
-    appEl.innerHTML = "Здесь будет страница фотографий пользователя";
-    return;
+    
+    // appEl.innerHTML = "Здесь будет страница фотографий пользователя";
+    return renderUserPostsPageComponent({
+      appEl,
+    });
   }
 };
 

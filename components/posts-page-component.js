@@ -78,7 +78,6 @@ export function renderPostsPageComponent({ appEl }) {
                       ${post.createdAt}
                     </p>
                   </li>
-                  
                 </ul>
               </div>`}).join('');
 
