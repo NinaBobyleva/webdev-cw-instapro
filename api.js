@@ -13,7 +13,7 @@ export let setId = (newId) => {
   id = newId;
 }
 
-export function getPosts({ token }) {
+export function getPosts() {
   return fetch(`${postsHost}/`, {
     method: "GET",
     headers: {
