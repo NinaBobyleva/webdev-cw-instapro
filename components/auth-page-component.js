@@ -1,4 +1,4 @@
-import { loginUser, registerUser, setToken } from "../api.js";
+import { loginUser, registerUser, setId, setToken } from "../api.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
@@ -97,7 +97,6 @@ export function renderAuthPageComponent({ appEl, setUser }) {
           password: password,
         })
           .then((user) => {
-            setToken(user.user.token);
             setUser(user.user);
             console.log(user.user);
           })

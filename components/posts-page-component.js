@@ -1,8 +1,10 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, renderApp } from "../index.js";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
+import { likePosts, dislikePosts } from "../api.js";
+// import { initLikeButtonElement } from "./likes-component.js";
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -20,27 +22,24 @@ export function renderPostsPageComponent({ appEl }) {
   //   }
   // })
 
-  const getPostsApp = posts.map((post, like) => {
-    // ruLocale = require('date-fns/locale/ru');
-    return {
-      id: post.id,
-      imageUrl: post.imageUrl,
-      createdAt: formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru}),
-      description: post.description,
-      user: {
-        id: post.user.id,
-        name: post.user.name,
-        imageUrl: post.user.imageUrl,
-      },
-      likes: [
-        {
-        id: like.id,
-        name: like.name,
-      },
-      ],
-      isLiked: false,
-    }
-  });
+  // const getPostsApp = posts.map((post, likes) => {
+  //   // ruLocale = require('date-fns/locale/ru');
+  //   return {
+  //     id: post.id,
+  //     imageUrl: post.imageUrl,
+  //     createdAt: formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru}),
+  //     description: post.description,
+  //     user: {
+  //       id: post.user.id,
+  //       name: post.user.name,
+  //       imageUrl: post.user.imageUrl,
+  //     },
+  //     likes: [
+  //       {id: post.likes.id, name: post.likes.name}
+  //     ],
+  //     isLiked: false,
+  //   }
+  // });
 
 
 
@@ -50,7 +49,7 @@ export function renderPostsPageComponent({ appEl }) {
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  const appHtml = getPostsApp.map((post, like,) => {
+  const appHtml = posts.map((post) => {
     return `<div class="page-container">
                 <div class="header-container"></div>
                 <ul class="posts">
@@ -63,11 +62,11 @@ export function renderPostsPageComponent({ appEl }) {
                       <img class="post-image" src=${post.imageUrl}>
                     </div>
                     <div class="post-likes">
-                      <button data-post-id=${like.id} class="like-button">
+                      <button data-post-id=${post.id} class="like-button">
                         <img src="./assets/images/like-not-active.svg">
                       </button>
                       <p class="post-likes-text">
-                        Нравится: <strong>${like.name}</strong>
+                        Нравится: <strong>${post.name}</strong>
                       </p>
                     </div>
                     <p class="post-text">
@@ -75,14 +74,41 @@ export function renderPostsPageComponent({ appEl }) {
                       ${post.description}
                     </p>
                     <p class="post-date">
-                      ${post.createdAt}
+                      ${formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru})}
                     </p>
                   </li>
                 </ul>
               </div>`}).join('');
 
   appEl.innerHTML = appHtml;
-  // console.log(appHtml);
+  
+  // initLikeButtonElement(getPostsApp.isLiked);
+
+  
+  for (const likeButtonElement of document.querySelectorAll('.like-button')) {
+      likeButtonElement.addEventListener('click', () => {
+        // const postId = likeButtonElement.dataset.postId;
+        // const userId = likeButtonElement.dataset.userId;
+        // console.log(postId);
+
+        if (!posts.isLiked) {
+            likePosts(likeButtonElement.dataset.postId)
+            .then((responseData) => {
+                posts = responseData.posts;
+                console.log(responseData.posts);
+                renderApp();
+            })
+        } else if (posts.isLiked) {
+            dislikePosts(likeButtonElement.dataset.postId)
+            .then((responseData) => {
+                posts = responseData.posts;
+                console.log(responseData.posts);
+                renderApp();
+            })
+        }
+      });
+  }
+  
 
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
@@ -95,4 +121,8 @@ export function renderPostsPageComponent({ appEl }) {
       });
     });
   }
+
+  
 }
+
+

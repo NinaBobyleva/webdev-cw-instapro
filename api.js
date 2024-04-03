@@ -1,15 +1,14 @@
 // Замени на свой, чтобы получить независимый от других набор данных.
+
+import { getToken } from "./index.js";
+
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "nina-bobyleva";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro`;
 
-export let token;
 export let id;
 
-export let setToken = (newToken) => {
-  token = newToken;
-}
 export let setId = (newId) => {
   id = newId;
 }
@@ -18,7 +17,7 @@ export function getPosts({ token }) {
   return fetch(`${postsHost}/`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: getToken(),
     },
   })
     .then((response) => {
@@ -39,7 +38,7 @@ export function getUserPosts(id) {
   return fetch(`${postsHost}/user-posts/${id}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: getToken(),
     },
   })
     .then((response) => {
@@ -52,7 +51,7 @@ export function getUserPosts(id) {
     
 }
 
-export function postPosts({ description, imageUrl }) {
+export function postPosts({ description, imageUrl, token }) {
   return fetch(`${postsHost}/`, {
     method: "POST",
     body: JSON.stringify({
@@ -60,10 +59,38 @@ export function postPosts({ description, imageUrl }) {
       imageUrl,
     }),
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: getToken(),
     },
   })
   .then((response) => {
+    return response.json();
+  }); 
+}
+
+export function likePosts(id) {
+  console.log(id);
+  return fetch(`${postsHost}/${id}/like`, {
+    method: "POST",
+    headers: {
+      Authorization: getToken(),
+    },
+  })
+  .then((response) => {
+    console.log(response);
+    return response.json();
+  }); 
+}
+
+export function dislikePosts(id) {
+  console.log(id);
+  return fetch(`${postsHost}/${id}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: getToken(),
+    },
+  })
+  .then((response) => {
+    console.log(response);
     return response.json();
   }); 
 }
