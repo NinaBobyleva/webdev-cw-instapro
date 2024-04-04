@@ -1,10 +1,9 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { likePosts, dislikePosts, getPosts, getUserPosts } from "../api";
+import { likePosts, dislikePosts, getUserPosts } from "../api";
 import { posts, goToPage, renderApp , setPosts } from "../index.js";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
-import { initLikeButtonElement } from "./likes-component.js";
 
 
 export function renderUserPostsPageComponent({ appEl }) {
@@ -17,7 +16,7 @@ export function renderUserPostsPageComponent({ appEl }) {
           <img class="post-image" src=${post.imageUrl}>
         </div>
         <div class="post-likes">
-          <button data-index="${index}" data-post-id=${post.id} class="like-button">
+          <button data-user-id=${post.user.id} data-index="${index}" data-post-id=${post.id} class="like-button">
             <img src="./assets/images/${post.isLiked ? 'like-active.svg' : 'like-not-active.svg'}">
           </button>
           <p class="post-likes-text">
@@ -37,7 +36,7 @@ export function renderUserPostsPageComponent({ appEl }) {
 
   const headerUser = `
   <div class="page-container">
-  <div class="header-container" id="header-container" data-user-id=${posts[0].user.id}></div>
+  <div class="header-container" id="header-container"></div>
     <div class="post-header" >
       <img src=${posts[0].user.imageUrl} class="post-user-header__user-image">
       <p class="post-user-header__user-name">${posts[0].user.name}</p>
@@ -49,27 +48,20 @@ export function renderUserPostsPageComponent({ appEl }) {
 
   for (const likeButtonElement of document.querySelectorAll('.like-button')) {
     likeButtonElement.addEventListener('click', () => {
-      const el = document.getElementById("header-container");
       const index = likeButtonElement.dataset.index;
-      const userId = el.dataset.userId;
-      console.log(userId);
       if (posts[index].isLiked === false) {
-        console.log(posts[index].isLiked);
         return likePosts(likeButtonElement.dataset.postId)
-          .then((responseData) => {
-            console.log(responseData);
-            getUserPosts(userId).then((data) => {
-              console.log(userId);
-              setPosts(data);
+          .then(() => {
+            getUserPosts(likeButtonElement.dataset.userId).then((data) => {
+              setPosts(data.posts);
               renderApp();
             })
           });
       } else {
         return dislikePosts(likeButtonElement.dataset.postId)
-          .then((responseData) => {
-            // console.log(responseData);
-            getUserPosts(userId).then((data) => {
-              setPosts(data);
+          .then(() => {
+            getUserPosts(likeButtonElement.dataset.userId).then((data) => {
+              setPosts(data.posts);
               renderApp();
             })
           });

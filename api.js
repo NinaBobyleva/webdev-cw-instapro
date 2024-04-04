@@ -7,12 +7,6 @@ const personalKey = "nina-bobyleva";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro`;
 
-export let id;
-
-export let setId = (newId) => {
-  id = newId;
-}
-
 export function getPosts() {
   return fetch(`${postsHost}/`, {
     method: "GET",
@@ -28,14 +22,12 @@ export function getPosts() {
       return response.json();
     })
     .then((data) => {
-      // console.log(data);
       return data.posts;
     });
     
 }
 
 export function getUserPosts(id) {
-  console.log(id);
   return fetch(`${postsHost}/user-posts/${id}`, {
     method: "GET",
     headers: {
@@ -69,7 +61,6 @@ export function postPosts({ description, imageUrl, token }) {
 }
 
 export function likePosts(id) {
-  // console.log(id);
   return fetch(`${postsHost}/${id}/like`, {
     method: "POST",
     headers: {
@@ -77,13 +68,11 @@ export function likePosts(id) {
     },
   })
   .then((response) => {
-    console.log(response);
     return response.json();
   }); 
 }
 
 export function dislikePosts(id) {
-  // console.log(id);
   return fetch(`${postsHost}/${id}/dislike`, {
     method: "POST",
     headers: {
@@ -91,7 +80,6 @@ export function dislikePosts(id) {
     },
   })
   .then((response) => {
-    console.log(response);
     return response.json();
   }); 
 }

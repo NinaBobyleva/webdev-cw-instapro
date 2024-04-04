@@ -30,7 +30,6 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 
       const uploadImageContainer = appEl.querySelector(".upload-image-container");
       const textEl = document.getElementById('text-input');
-      console.log(textEl);
 
       renderHeaderComponent({
         element: document.querySelector(".header-container"),
@@ -56,8 +55,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
           postPosts({ 
             description: textEl.value,
             imageUrl: imageUrl, 
-          }).then((responseData) => {
-            console.log(responseData);
+          }).then(() => {
             goToPage(POSTS_PAGE);
           })
         });

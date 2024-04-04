@@ -4,45 +4,10 @@ import { posts, goToPage, renderApp , setPosts } from "../index.js";
 import { likePosts, dislikePosts, getPosts } from "../api";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
-import { initLikeButtonElement } from "./likes-component.js";
 
 
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
-
-  // getPosts({ token }).then((responseData) => {
-  //   // console.log(responseData);
-  //   const appPosts = responseData
-  // let date = new Date();
-
-  // const getLikesApp = likes.map((like) => {
-  //   return {
-  //     id: like.id,
-  //     name: like.name,
-  //   }
-  // })
-
-  // const getPostsApp = posts.map((post) => {
-  //   // ruLocale = require('date-fns/locale/ru');
-  //   return {
-  //     id: post.id,
-  //     imageUrl: post.imageUrl,
-  //     createdAt: formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru}),
-  //     description: post.description,
-  //     user: {
-  //       id: post.user.id,
-  //       name: post.user.name,
-  //       imageUrl: post.user.imageUrl,
-  //     },
-  //     likes: [
-  //       {id: post.id, likes: post.name}
-  //     ],
-  //     isLiked: post.isLiked,
-  //   }
-  // });
-
-
-
   // console.log("Актуальный список постов:", posts);
 
   /**
@@ -87,20 +52,16 @@ export function renderPostsPageComponent({ appEl }) {
     likeButtonElement.addEventListener('click', () => {
       const index = likeButtonElement.dataset.index;
       if (posts[index].isLiked === false) {
-        console.log(posts[index].isLiked);
         return likePosts(likeButtonElement.dataset.postId)
-          .then((responseData) => {
-            console.log(responseData);
+          .then(() => {
             getPosts().then((data) => {
-              console.log(data);
               setPosts(data);
               renderApp();
             })
           });
       } else {
         return dislikePosts(likeButtonElement.dataset.postId)
-          .then((responseData) => {
-            console.log(responseData);
+          .then(() => {
             getPosts().then((data) => {
               setPosts(data);
               renderApp();

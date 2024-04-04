@@ -79,7 +79,6 @@ export const goToPage = (newPage, data) => {
 
       return getUserPosts(data.userId)
       .then((responseData) => {
-        console.log(responseData);
         posts = [];
         posts = responseData.posts;
         renderApp();
@@ -121,8 +120,7 @@ export const renderApp = () => {
   if (page === ADD_POSTS_PAGE) {
     return renderAddPostPageComponent({
       appEl,
-      onAddPostClick() {
-          
+      onAddPostClick() {   
         // TODO: реализовать добавление поста в API
         // console.log("Добавляю пост...", { description, imageUrl });
         goToPage(POSTS_PAGE);
