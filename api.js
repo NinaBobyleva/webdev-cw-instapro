@@ -38,7 +38,6 @@ export function getUserPosts(id) {
       return response.json();
     })
     .then((data) => {
-      
       return data;
     });
     
@@ -68,6 +67,9 @@ export function likePosts(id) {
     },
   })
   .then((response) => {
+    if (response.status === 401) {
+      throw new Error("Необходима авторизация!");
+    }
     return response.json();
   }); 
 }
@@ -80,6 +82,9 @@ export function dislikePosts(id) {
     },
   })
   .then((response) => {
+    if (response.status === 401) {
+      throw new Error("Необходима авторизация!");
+    }
     return response.json();
   }); 
 }

@@ -83,6 +83,9 @@ export const goToPage = (newPage, data) => {
         posts = responseData.posts;
         renderApp();
       })
+      .catch((error) => {
+        console.error(error);
+      });
       // console.log("Открываю страницу пользователя: ", data.userId);
     }
     page = newPage;
