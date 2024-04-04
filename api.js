@@ -71,6 +71,7 @@ export function likePosts(id) {
   })
   .then((response) => {
     if (response.status === 401) {
+      alert("Необходима авторизация!");
       throw new Error("Необходима авторизация!");
     }
     return response.json();
@@ -86,6 +87,7 @@ export function dislikePosts(id) {
   })
   .then((response) => {
     if (response.status === 401) {
+      alert("Необходима авторизация!");
       throw new Error("Необходима авторизация!");
     }
     return response.json();
