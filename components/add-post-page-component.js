@@ -4,8 +4,10 @@ import { renderUploadImageComponent } from "./upload-image-component.js";
 import { postPosts } from "../api";
 import { goToPage } from "../index.js";
 import { POSTS_PAGE } from "../routes.js";
+import { sanitizeHtml } from "../sanitize.js";
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
+
   let imageUrl = "";
   const render = () => {
     // TODO: Реализовать страницу добавления поста
@@ -48,12 +50,22 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
         
 
         document.getElementById("add-button").addEventListener("click", () => {
+
+          if (textEl.value === "") {
+            alert("Введите описание");
+            return;
+          }
+          if (!imageUrl) {
+            alert("Не выбрана фотография");
+            return;
+          }
+
           onAddPostClick({
             description: "Описание картинки",
             imageUrl: "https://image.png",
           })
           postPosts({ 
-            description: textEl.value,
+            description: sanitizeHtml(textEl.value),
             imageUrl: imageUrl, 
           }).then(() => {
             goToPage(POSTS_PAGE);

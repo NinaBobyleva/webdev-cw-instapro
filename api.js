@@ -55,6 +55,9 @@ export function postPosts({ description, imageUrl, token }) {
     },
   })
   .then((response) => {
+    if (response.status === 400) {
+      throw new Error("Введите данные!");
+    }
     return response.json();
   }); 
 }
