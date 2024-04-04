@@ -40,31 +40,6 @@ export const logout = () => {
  * Включает страницу приложения
  */
 
-// export const fetchAndRenderPosts = () => {
-//   getPosts({ token }).then((responseData) => {
-//     // console.log(responseData);
-//     const appPosts = responseData.map((post) => {
-//       return {
-//         imageUrl: post.imageURL,
-//         createdAt: post.createdAt,
-//         description: post.description,
-//         user: {
-//           name: post.user.name,
-//           imageUrl: post.user.imageURL,
-//         },
-//         likes: [
-//           {
-//           id: post.id,
-//           name: post.name
-//         },
-//         ],
-//         isLiked: false,
-//       }
-//     })
-//     posts = appPosts;
-//   });
-// }
-
 export const goToPage = (newPage, data) => {
   if (
     [
@@ -104,6 +79,7 @@ export const goToPage = (newPage, data) => {
 
       return getUserPosts(data.userId)
       .then((responseData) => {
+        console.log(responseData);
         posts = [];
         posts = responseData.posts;
         renderApp();
@@ -162,7 +138,6 @@ export const renderApp = () => {
 
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
-    
     // appEl.innerHTML = "Здесь будет страница фотографий пользователя";
     return renderUserPostsPageComponent({
       appEl,

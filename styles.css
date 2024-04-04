@@ -63,6 +63,17 @@
   margin-right: 10px;
 }
 
+.post-user-header__user-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 40px;
+  margin-right: 10px;
+}
+.post-user-header__user-name {
+  /* font-weight: 500; */
+  font-size: 28px;
+}
 .post-image-container {
   margin-left: -20px;
   margin-right: -20px;
@@ -127,10 +138,10 @@
   margin-right: 10px;
 }
 
-.posts-user-header__user-name {
+/* .posts-user-header__user-name {
   font-size: 28px;
   line-height: 35px;
-}
+} */
 
 .loading-page {
   display: flex;

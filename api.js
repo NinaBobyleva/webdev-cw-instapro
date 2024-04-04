@@ -35,6 +35,7 @@ export function getPosts() {
 }
 
 export function getUserPosts(id) {
+  console.log(id);
   return fetch(`${postsHost}/user-posts/${id}`, {
     method: "GET",
     headers: {
@@ -45,7 +46,7 @@ export function getUserPosts(id) {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
+      
       return data;
     });
     
@@ -68,7 +69,7 @@ export function postPosts({ description, imageUrl, token }) {
 }
 
 export function likePosts(id) {
-  console.log(id);
+  // console.log(id);
   return fetch(`${postsHost}/${id}/like`, {
     method: "POST",
     headers: {
@@ -82,7 +83,7 @@ export function likePosts(id) {
 }
 
 export function dislikePosts(id) {
-  console.log(id);
+  // console.log(id);
   return fetch(`${postsHost}/${id}/dislike`, {
     method: "POST",
     headers: {

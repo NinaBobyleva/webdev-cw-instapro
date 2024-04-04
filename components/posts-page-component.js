@@ -1,6 +1,7 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, renderApp , setPosts } from "../index.js";
+import { likePosts, dislikePosts, getPosts } from "../api";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 import { initLikeButtonElement } from "./likes-component.js";
@@ -82,7 +83,32 @@ export function renderPostsPageComponent({ appEl }) {
   appEl.innerHTML = appHtml;
 
   
-  initLikeButtonElement();
+  for (const likeButtonElement of document.querySelectorAll('.like-button')) {
+    likeButtonElement.addEventListener('click', () => {
+      const index = likeButtonElement.dataset.index;
+      if (posts[index].isLiked === false) {
+        console.log(posts[index].isLiked);
+        return likePosts(likeButtonElement.dataset.postId)
+          .then((responseData) => {
+            console.log(responseData);
+            getPosts().then((data) => {
+              console.log(data);
+              setPosts(data);
+              renderApp();
+            })
+          });
+      } else {
+        return dislikePosts(likeButtonElement.dataset.postId)
+          .then((responseData) => {
+            console.log(responseData);
+            getPosts().then((data) => {
+              setPosts(data);
+              renderApp();
+            })
+          });
+      }
+    });
+  }
 
 
   renderHeaderComponent({
