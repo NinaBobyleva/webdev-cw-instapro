@@ -1,10 +1,9 @@
-import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
+import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, renderApp, setPosts } from "../index.js";
+import { posts, goToPage } from "../index.js";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
-import { likePosts, dislikePosts, getPosts } from "../api.js";
-// import { initLikeButtonElement } from "./likes-component.js";
+import { initLikeButtonElement } from "./likes-component.js";
 
 
 export function renderPostsPageComponent({ appEl }) {
@@ -22,24 +21,24 @@ export function renderPostsPageComponent({ appEl }) {
   //   }
   // })
 
-  const getPostsApp = posts.map((post) => {
-    // ruLocale = require('date-fns/locale/ru');
-    return {
-      id: post.id,
-      imageUrl: post.imageUrl,
-      createdAt: formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru}),
-      description: post.description,
-      user: {
-        id: post.user.id,
-        name: post.user.name,
-        imageUrl: post.user.imageUrl,
-      },
-      likes: [
-        {id: post.id, likes: post.name}
-      ],
-      isLiked: post.isLiked,
-    }
-  });
+  // const getPostsApp = posts.map((post) => {
+  //   // ruLocale = require('date-fns/locale/ru');
+  //   return {
+  //     id: post.id,
+  //     imageUrl: post.imageUrl,
+  //     createdAt: formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru}),
+  //     description: post.description,
+  //     user: {
+  //       id: post.user.id,
+  //       name: post.user.name,
+  //       imageUrl: post.user.imageUrl,
+  //     },
+  //     likes: [
+  //       {id: post.id, likes: post.name}
+  //     ],
+  //     isLiked: post.isLiked,
+  //   }
+  // });
 
 
 
@@ -66,7 +65,7 @@ export function renderPostsPageComponent({ appEl }) {
                         <img src="./assets/images/${post.isLiked ? 'like-active.svg' : 'like-not-active.svg'}">
                       </button>
                       <p class="post-likes-text">
-                        Нравится: <strong>${post.isLiked ? post.likes[0]['name'] : "0"}</strong>
+                        Нравится: <strong>${post.likes.length > 1 ? `${post.likes[0]['name']} и еще  ${post.likes.length - 1}` : `${post.likes.length > 0 ? post.likes[0]['name'] : "0"}` }</strong>
                       </p>
                     </div>
                     <p class="post-text">
@@ -82,33 +81,8 @@ export function renderPostsPageComponent({ appEl }) {
 
   appEl.innerHTML = appHtml;
 
-
-  for (const likeButtonElement of document.querySelectorAll('.like-button')) {
-    likeButtonElement.addEventListener('click', () => {
-      const index = likeButtonElement.dataset.index;
-      if (posts[index].isLiked === false) {
-        console.log(posts[index].isLiked);
-        return likePosts(likeButtonElement.dataset.postId)
-          .then((responseData) => {
-            console.log(responseData);
-            getPosts().then((data) => {
-              console.log(data);
-              setPosts(data);
-              renderApp();
-            })
-            renderApp();
-          });
-      } else {
-        return dislikePosts(likeButtonElement.dataset.postId)
-          .then(() => {
-            getPosts().then((data) => {
-              setPosts(data);
-              renderApp();
-            })
-          });
-      }
-    });
-  }
+  
+  initLikeButtonElement();
 
 
   renderHeaderComponent({
