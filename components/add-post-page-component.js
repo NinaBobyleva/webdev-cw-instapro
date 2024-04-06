@@ -64,12 +64,6 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
             description: "Описание картинки",
             imageUrl: "https://image.png",
           })
-          postPosts({ 
-            description: sanitizeHtml(textEl.value),
-            imageUrl: imageUrl, 
-          }).then(() => {
-            goToPage(POSTS_PAGE);
-          })
         });
     }     
   };
