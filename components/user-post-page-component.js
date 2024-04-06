@@ -1,9 +1,9 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { likePosts, dislikePosts, getUserPosts } from "../api";
-import { posts, goToPage, renderApp , setPosts } from "../index.js";
+import { posts, goToPage } from "../index.js";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
+import { initLikeButtonListeners } from "./like-component.js";
 
 
 export function renderUserPostsPageComponent({ appEl }) {
@@ -46,28 +46,30 @@ export function renderUserPostsPageComponent({ appEl }) {
 
   appEl.innerHTML = headerUser;
 
-  for (const likeButtonElement of document.querySelectorAll('.like-button')) {
-    likeButtonElement.addEventListener('click', () => {
-      const index = likeButtonElement.dataset.index;
-      if (posts[index].isLiked === false) {
-        return likePosts(likeButtonElement.dataset.postId)
-          .then(() => {
-            getUserPosts(likeButtonElement.dataset.userId).then((data) => {
-              setPosts(data.posts);
-              renderApp();
-            })
-          });
-      } else {
-        return dislikePosts(likeButtonElement.dataset.postId)
-          .then(() => {
-            getUserPosts(likeButtonElement.dataset.userId).then((data) => {
-              setPosts(data.posts);
-              renderApp();
-            })
-          });
-      }
-    });
-  }
+  initLikeButtonListeners();
+
+  // for (const likeButtonElement of document.querySelectorAll('.like-button')) {
+  //   likeButtonElement.addEventListener('click', () => {
+  //     const index = likeButtonElement.dataset.index;
+  //     if (posts[index].isLiked === false) {
+  //       return likePosts(likeButtonElement.dataset.postId)
+  //         .then(() => {
+  //           getUserPosts(likeButtonElement.dataset.userId).then((data) => {
+  //             setPosts(data.posts);
+  //             renderApp();
+  //           })
+  //         });
+  //     } else {
+  //       return dislikePosts(likeButtonElement.dataset.postId)
+  //         .then(() => {
+  //           getUserPosts(likeButtonElement.dataset.userId).then((data) => {
+  //             setPosts(data.posts);
+  //             renderApp();
+  //           })
+  //         });
+  //     }
+  //   });
+  // }
   
 
 
