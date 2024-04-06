@@ -48,31 +48,6 @@ export function renderUserPostsPageComponent({ appEl }) {
 
   initLikeButtonListeners();
 
-  // for (const likeButtonElement of document.querySelectorAll('.like-button')) {
-  //   likeButtonElement.addEventListener('click', () => {
-  //     const index = likeButtonElement.dataset.index;
-  //     if (posts[index].isLiked === false) {
-  //       return likePosts(likeButtonElement.dataset.postId)
-  //         .then(() => {
-  //           getUserPosts(likeButtonElement.dataset.userId).then((data) => {
-  //             setPosts(data.posts);
-  //             renderApp();
-  //           })
-  //         });
-  //     } else {
-  //       return dislikePosts(likeButtonElement.dataset.postId)
-  //         .then(() => {
-  //           getUserPosts(likeButtonElement.dataset.userId).then((data) => {
-  //             setPosts(data.posts);
-  //             renderApp();
-  //           })
-  //         });
-  //     }
-  //   });
-  // }
-  
-
-
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
