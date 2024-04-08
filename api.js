@@ -3,7 +3,7 @@
 import { getToken } from "./index.js";
 
 // "боевая" версия инстапро лежит в ключе prod
-const personalKey = "nina-bobyleva";
+const personalKey = "mikhail-bobylev";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro`;
 

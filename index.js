@@ -1,5 +1,5 @@
-import { getPosts, getUserPosts, token } from "./api.js";
-import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
+import { getPosts, getUserPosts, postPosts } from "./api.js";
+import { renderAddPostPageComponent, textEl, imageUrl } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
   ADD_POSTS_PAGE,
@@ -16,6 +16,7 @@ import {
   saveUserToLocalStorage,
 } from "./helpers.js";
 import { renderUserPostsPageComponent } from "./components/user-post-page-component.js";
+import { sanitizeHtml } from "./sanitize.js";
 
 export let user = getUserFromLocalStorage();
 export let page = null;

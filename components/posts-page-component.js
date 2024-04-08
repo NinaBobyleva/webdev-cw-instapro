@@ -46,14 +46,15 @@ export function renderPostsPageComponent({ appEl }) {
               </div>`}).join('');
 
   if (posts.length === 0) {
-    appHtml = posts.map(() => {
-      return appEl.innerHTML = 
-      `<div class="page-container">
+   const stubHtml = `
+    <div class="page-container">
       <div class="header-container"></div>
-      </div>`}).join('');
-    } else {
-      appEl.innerHTML = appHtml;
-    }
+      На этой странице пока нет постов
+    </div>`;
+    appEl.innerHTML = stubHtml;
+  } else {
+    appEl.innerHTML = appHtml;
+  }
 
   
 
